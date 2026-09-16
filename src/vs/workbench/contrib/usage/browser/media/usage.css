@@ -1,0 +1,28 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.usage-status-item {
+	display: flex;
+	align-items: center;
+	padding: 5px 7px;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 500;
+	gap: 3px;
+	background: #007acc;
+	color: #ffffff;
+}
+
+.usage-status-item .codicon {
+	font-size: 14px;
+}
+
+.usage-status-item:has(.usage-count-high) {
+	background: #d13438;
+}
+
+.monaco-workbench [class*="usage-badge-"] {
+	opacity: 0.85;
+}
