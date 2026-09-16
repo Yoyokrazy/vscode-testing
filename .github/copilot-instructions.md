@@ -1,5 +1,21 @@
 # VS Code Copilot Instructions
 
+## Code review — required first step (custom review customizations)
+
+> Applies to Copilot Code Review only.
+
+At the very start of every pull request review, before writing any comments,
+call the `getAliasCustomizations` MCP tool (server `vscode-review`) with
+`author` set to the **GitHub login of the user who opened this pull request**
+(the PR author — do not pass "unknown" or a placeholder). Then follow the
+returned `instructions` field exactly:
+
+- If the author is enabled, review the diff once per listed skill as an
+  independent pass. Load each skill with `getSkill`, follow that skill's
+  `runs`/`references` manifest, and **tag every comment** with its source
+  (`[vanilla-ccr]` for the standard review, `[<skill-name>]` for each skill).
+- If the author is not enabled, perform a standard review.
+
 ## Project Overview
 
 Visual Studio Code is built with a layered architecture using TypeScript, web APIs and Electron, combining web technologies with native app capabilities. The codebase is organized into key architectural layers:
