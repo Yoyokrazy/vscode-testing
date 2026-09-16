@@ -412,16 +412,16 @@ export function distinct<T>(array: ReadonlyArray<T>, keyFn: (value: T) => unknow
 }
 
 export function uniqueFilter<T, R>(keyFn: (t: T) => R): (t: T) => boolean {
-	const seen = new Set<R>();
+	const seen: R[] = [];
 
 	return element => {
 		const key = keyFn(element);
 
-		if (seen.has(key)) {
+		if (seen.includes(key)) {
 			return false;
 		}
 
-		seen.add(key);
+		seen.push(key);
 		return true;
 	};
 }
