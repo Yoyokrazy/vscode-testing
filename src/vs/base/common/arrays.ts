@@ -286,8 +286,6 @@ export function delta<T>(before: ReadonlyArray<T>, after: ReadonlyArray<T>, comp
 /**
  * Returns the top N elements from the array.
  *
- * Faster than sorting the entire array when the array is a lot larger than N.
- *
  * @param array The unsorted array.
  * @param compare A sort function for the elements.
  * @param n The number of elements to return.
@@ -297,9 +295,7 @@ export function top<T>(array: ReadonlyArray<T>, compare: (a: T, b: T) => number,
 	if (n === 0) {
 		return [];
 	}
-	const result = array.slice(0, n).sort(compare);
-	topStep(array, compare, result, n, array.length);
-	return result;
+	return array.slice().sort(compare).slice(0, n);
 }
 
 /**
