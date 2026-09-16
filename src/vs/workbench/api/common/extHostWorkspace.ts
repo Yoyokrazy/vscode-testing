@@ -16,6 +16,7 @@ import { basename, basenameOrAuthority, dirname, ExtUri, relativePath } from '..
 import { compare } from '../../../base/common/strings.js';
 import { isUriComponents, URI, UriComponents } from '../../../base/common/uri.js';
 import { localize } from '../../../nls.js';
+import { navigatorDiscoveryPolicy } from '../../services/workspaceNavigator/common/navigatorQuery.js';
 import { ExtensionIdentifier, IExtensionDescription } from '../../../platform/extensions/common/extensions.js';
 import { FileSystemProviderCapabilities } from '../../../platform/files/common/files.js';
 import { createDecorator } from '../../../platform/instantiation/common/instantiation.js';
@@ -492,36 +493,23 @@ export class ExtHostWorkspace implements ExtHostWorkspaceShape, IExtHostWorkspac
 
 	// --- search ---
 
-	/**
-	 * Note, null/undefined have different and important meanings for "exclude"
-	 */
 	findFiles(include: vscode.GlobPattern | undefined, exclude: vscode.GlobPattern | null | undefined, maxResults: number | undefined, extensionId: ExtensionIdentifier, token: vscode.CancellationToken = CancellationToken.None): Promise<vscode.Uri[]> {
 		this._logService.trace(`extHostWorkspace#findFiles: fileSearch, extension: ${extensionId.value}, entryPoint: findFiles`);
 
-		let excludeString: string = '';
-		let useFileExcludes = true;
-		if (exclude === null) {
-			useFileExcludes = false;
-		} else if (exclude !== undefined) {
-			if (typeof exclude === 'string') {
-				excludeString = exclude;
-			} else {
-				excludeString = exclude.pattern;
-			}
-		}
+		const policy = navigatorDiscoveryPolicy(typeof exclude === 'object' && exclude !== null ? exclude.pattern : exclude);
 
 		const useIgnoreFilesOptIn = this._useIgnoreFilesInFindFiles();
 		// `useIgnoreFiles.local` semantics: `false` means "do not respect local .gitignore" (--no-ignore to rg).
 		// Default (PR #204845): hardcoded `false` for every legacy findFiles caller, regardless of `search.useIgnoreFiles`.
 		// Opt-in (`search.experimental.useIgnoreFilesInFindFiles: true`): honor the user's `search.useIgnoreFiles`,
-		// while keeping `exclude === null` as the documented escape hatch (no excludes => bypass .gitignore).
+		// A null exclude bypasses local ignore files.
 		const localIgnoreFiles = useIgnoreFilesOptIn && exclude !== null ? undefined : false;
 
 		// todo: consider exclude baseURI if available
 		return this._findFilesImpl({ type: 'include', value: include }, {
-			exclude: [excludeString],
+			exclude: [policy.excludePattern ?? ''],
 			maxResults,
-			useExcludeSettings: useFileExcludes ? ExcludeSettingOptions.FilesExclude : ExcludeSettingOptions.None,
+			useExcludeSettings: policy.useFileExcludes ? ExcludeSettingOptions.FilesExclude : ExcludeSettingOptions.None,
 			useIgnoreFiles: {
 				local: localIgnoreFiles
 			}

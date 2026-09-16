@@ -58,6 +58,7 @@ import { ASK_QUICK_QUESTION_ACTION_ID } from '../../chat/browser/actions/chatQui
 import { IChatWidgetService, IQuickChatService } from '../../chat/browser/chat.js';
 import { ILogService } from '../../../../platform/log/common/log.js';
 import { ICustomEditorLabelService } from '../../../services/editor/common/customEditorLabelService.js';
+import { NavigatorQuickPick } from '../../../services/workspaceNavigator/browser/navigatorQuickPick.js';
 
 export interface IAnythingQuickPickItem extends IPickerQuickAccessItem, IQuickPickItemWithResource {
 	readonly editor?: EditorInput | IResourceEditorInput;
@@ -223,6 +224,9 @@ export class AnythingQuickAccessProvider extends PickerQuickAccessProvider<IAnyt
 	}
 
 	override provide(picker: IQuickPick<IAnythingQuickPickItem, { useSeparators: true }>, token: CancellationToken, runOptions?: AnythingQuickAccessProviderRunOptions): IDisposable {
+		if (this.configurationService.getValue<boolean>('workspaceNavigator.enabled') && this.configurationService.getValue<boolean>('workspaceNavigator.useInQuickOpen')) {
+			return this.instantiationService.createInstance(NavigatorQuickPick).provideWithPrefix(picker, token, '');
+		}
 		const disposables = new DisposableStore();
 
 		// Update the pick state for this run

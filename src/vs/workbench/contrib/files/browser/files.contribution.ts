@@ -35,6 +35,17 @@ import { FileEditorInputSerializer, FileEditorWorkingCopyEditorHandler } from '.
 import { ModesRegistry } from '../../../../editor/common/languages/modesRegistry.js';
 import { IConfigurationService } from '../../../../platform/configuration/common/configuration.js';
 import { TextFileEditor } from './editors/textFileEditor.js';
+import { MenuId, MenuRegistry } from '../../../../platform/actions/common/actions.js';
+import { ContextKeyExpr } from '../../../../platform/contextkey/common/contextkey.js';
+import { localize } from '../../../../nls.js';
+import { NAVIGATOR_OPEN_COMMAND } from '../../../services/workspaceNavigator/common/workspaceNavigator.js';
+
+MenuRegistry.appendMenuItem(MenuId.ExplorerContext, {
+	command: { id: NAVIGATOR_OPEN_COMMAND, title: localize('files.navigator', "Open in Workspace Navigator") },
+	when: ContextKeyExpr.and(ContextKeyExpr.equals('config.workspaceNavigator.enabled', true), ContextKeyExpr.not('explorerResourceIsFolder')),
+	group: 'navigation',
+	order: 20
+});
 
 class FileUriLabelContribution implements IWorkbenchContribution {
 

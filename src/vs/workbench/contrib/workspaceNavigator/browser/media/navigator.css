@@ -1,0 +1,115 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.workspace-navigator {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	color: var(--vscode-foreground);
+	background: var(--vscode-sideBar-background);
+}
+
+.workspace-navigator .navigator-controls {
+	padding: var(--vscode-spacing-size80);
+}
+
+.workspace-navigator .navigator-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--vscode-spacing-size40);
+	margin-top: var(--vscode-spacing-size80);
+}
+
+.workspace-navigator .navigator-toolbar .monaco-button,
+.workspace-navigator .navigator-row-actions .monaco-button {
+	width: auto;
+	padding: var(--vscode-spacing-size40) var(--vscode-spacing-size80);
+}
+
+.workspace-navigator .navigator-filter {
+	min-width: 0;
+	color: var(--vscode-dropdown-foreground);
+	background: var(--vscode-dropdown-background);
+	border: var(--vscode-strokeThickness) solid var(--vscode-dropdown-border);
+	border-radius: var(--vscode-cornerRadius-small);
+}
+
+.workspace-navigator .navigator-status {
+	padding: var(--vscode-spacing-size40) var(--vscode-spacing-size80);
+	color: var(--vscode-descriptionForeground);
+}
+
+.workspace-navigator .navigator-rows {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+}
+
+.workspace-navigator .navigator-row {
+	display: flex;
+	align-items: center;
+	gap: var(--vscode-spacing-size80);
+	padding: var(--vscode-spacing-size80);
+	border-bottom: var(--vscode-strokeThickness) solid var(--vscode-widget-border);
+}
+
+.workspace-navigator .navigator-resource {
+	flex: 1;
+	min-width: 0;
+}
+
+.workspace-navigator .navigator-resource .monaco-button {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.workspace-navigator .navigator-description,
+.workspace-navigator .navigator-state {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--vscode-descriptionForeground);
+	font-size: var(--vscode-fontSize-body2);
+}
+
+.workspace-navigator .navigator-row-actions {
+	display: flex;
+	flex-direction: column;
+	gap: var(--vscode-spacing-size40);
+}
+
+.workspace-navigator .navigator-pin {
+	cursor: pointer;
+	text-align: center;
+	color: var(--vscode-textLink-foreground);
+	padding: var(--vscode-spacing-size40);
+}
+
+.workspace-navigator .navigator-pin:focus-visible,
+.workspace-navigator .navigator-filter:focus-visible,
+.workspace-navigator .navigator-preview:focus-visible {
+	outline: var(--vscode-strokeThickness) solid var(--vscode-focusBorder);
+	outline-offset: -1px;
+}
+
+.workspace-navigator .navigator-preview {
+	flex: 0 1 35%;
+	min-height: 0;
+	overflow: auto;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	margin: 0;
+	padding: var(--vscode-spacing-size80);
+	border-top: var(--vscode-strokeThickness) solid var(--vscode-widget-border);
+	color: var(--vscode-editor-foreground);
+	background: var(--vscode-editor-background);
+}
+
+.workspace-navigator .navigator-preview[hidden] {
+	display: none;
+}
