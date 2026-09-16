@@ -39,6 +39,16 @@ import { Extensions, IConfigurationMigrationRegistry } from '../../../common/con
 import { registerWorkbenchContribution2, WorkbenchPhase } from '../../../common/contributions.js';
 import { AccessibleViewRegistry } from '../../../../platform/accessibility/browser/accessibleViewRegistry.js';
 import { SearchAccessibilityHelp } from './searchAccessibilityHelp.js';
+import { MenuId, MenuRegistry } from '../../../../platform/actions/common/actions.js';
+import { localize } from '../../../../nls.js';
+import { NAVIGATOR_QUICK_OPEN_COMMAND } from '../../../services/workspaceNavigator/common/workspaceNavigator.js';
+
+MenuRegistry.appendMenuItem(MenuId.ViewTitle, {
+	command: { id: NAVIGATOR_QUICK_OPEN_COMMAND, title: localize('search.navigator', "Quick Open with Workspace Navigator") },
+	when: ContextKeyExpr.and(ContextKeyExpr.equals('view', VIEW_ID), ContextKeyExpr.equals('config.workspaceNavigator.enabled', true)),
+	group: 'navigation',
+	order: 20
+});
 
 registerSingleton(ISearchViewModelWorkbenchService, SearchViewModelWorkbenchService, InstantiationType.Delayed);
 
