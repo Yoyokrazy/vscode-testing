@@ -270,6 +270,7 @@ import './contrib/inlineCompletions/browser/renameSymbolTrackerService.js';
 
 // Search
 import './contrib/search/browser/search.contribution.js';
+import './contrib/workspaceNavigator/browser/workspaceNavigator.contribution.js';
 import './contrib/search/browser/searchView.js';
 
 // Search Editor
